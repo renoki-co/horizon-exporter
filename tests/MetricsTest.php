@@ -74,7 +74,7 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_queue_throughput{queue=\"default\"} 3",
+            'horizon_queue_throughput{queue="default"} 3',
             $response,
         );
     }
@@ -98,12 +98,12 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_job_throughput{job=\"RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob\"} 3",
+            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"} 3',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_job_throughput{job=\"RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2\"} 1",
+            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2"} 1',
             $response,
         );
     }
@@ -125,7 +125,7 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_queue_runtime{queue=\"default\"}",
+            'horizon_queue_runtime{queue="default"}',
             $response,
         );
     }
@@ -149,12 +149,12 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_job_runtime{job=\"RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob\"}",
+            'horizon_job_runtime{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"}',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_job_runtime{job=\"RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2\"}",
+            'horizon_job_runtime{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2"}',
             $response,
         );
     }
@@ -181,27 +181,27 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_jobs_by_type{type=\"completed\"} 4",
+            'horizon_jobs_by_type{type="completed"} 4',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_jobs_by_type{type=\"failed\"} 1",
+            'horizon_jobs_by_type{type="failed"} 1',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_jobs_by_type{type=\"pending\"} 1",
+            'horizon_jobs_by_type{type="pending"} 1',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_jobs_by_type{type=\"recent\"} 6",
+            'horizon_jobs_by_type{type="recent"} 6',
             $response,
         );
 
         $this->assertStringContainsString(
-            "horizon_jobs_by_type{type=\"recent_failed\"} 1",
+            'horizon_jobs_by_type{type="recent_failed"} 1',
             $response,
         );
     }
@@ -223,7 +223,7 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_queue_throughput{queue=\"default\"} 3",
+            'horizon_queue_throughput{queue="default"} 3',
             $response,
         );
 
@@ -238,7 +238,7 @@ class MetricsTest extends TestCase
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            "horizon_queue_throughput{queue=\"default\"} 6",
+            'horizon_queue_throughput{queue="default"} 6',
             $response,
         );
     }

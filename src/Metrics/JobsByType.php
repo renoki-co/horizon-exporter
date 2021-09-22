@@ -4,7 +4,6 @@ namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\JobRepository;
 use RenokiCo\HorizonExporter\Metric;
-use Illuminate\Support\Str;
 
 class JobsByType extends Metric
 {
