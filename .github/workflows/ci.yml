@@ -19,7 +19,6 @@ jobs:
     strategy:
       matrix:
         php:
-          - '7.4'
           - '8.0'
         laravel:
           - 7.*
@@ -44,6 +43,11 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
         coverage: pcov
+
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: '6.0'
 
     - uses: actions/cache@v2.1.6
       name: Cache dependencies
