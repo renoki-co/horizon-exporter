@@ -27,7 +27,7 @@ class HorizonExporter
     ];
 
     /**
-     * Undocumented variable
+     * The Collector Registry for this session.
      *
      * @var \Prometheus\CollectorRegistry
      */

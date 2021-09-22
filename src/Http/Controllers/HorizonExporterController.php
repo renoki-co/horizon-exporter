@@ -1,6 +1,5 @@
 <?php
 
-
 namespace RenokiCo\HorizonExporter\Http\Controllers;
 
 use Illuminate\Http\Request;
