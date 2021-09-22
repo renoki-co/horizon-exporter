@@ -10,7 +10,7 @@ class JobsThroughput extends Metric
     /**
      * The collector to store the metric.
      *
-     * @var \Prometheus\Gauge
+     * @var \Prometheus\Histogram
      */
     protected $collector;
 
@@ -23,7 +23,7 @@ class JobsThroughput extends Metric
     {
         if ($jobs = app(MetricsRepository::class)->measuredJobs()) {
             foreach ($jobs as $job) {
-                $this->collector->set(
+                $this->collector->observe(
                     value: app(MetricsRepository::class)->throughputForJob($job),
                     labels: [
                         'job' => $job,
@@ -40,7 +40,7 @@ class JobsThroughput extends Metric
      */
     public function registerCollector()
     {
-        return $this->collector = $this->registry->registerGauge(
+        return $this->collector = $this->registry->registerHistogram(
             namespace: $this->getNamespace(),
             name: 'horizon_job_throughput',
             help: 'Get total workload throughput by job name.',

@@ -10,7 +10,7 @@ class QueuesThroughput extends Metric
     /**
      * The collector to store the metric.
      *
-     * @var \Prometheus\Gauge
+     * @var \Prometheus\Histogram
      */
     protected $collector;
 
@@ -23,7 +23,7 @@ class QueuesThroughput extends Metric
     {
         if ($queues = app(MetricsRepository::class)->measuredQueues()) {
             foreach ($queues as $queue) {
-                $this->collector->set(
+                $this->collector->observe(
                     value: app(MetricsRepository::class)->throughputForQueue($queue),
                     labels: [
                         'queue' => $queue,
@@ -40,7 +40,7 @@ class QueuesThroughput extends Metric
      */
     public function registerCollector()
     {
-        return $this->collector = $this->registry->registerGauge(
+        return $this->collector = $this->registry->registerHistogram(
             namespace: $this->getNamespace(),
             name: 'horizon_queue_throughput',
             help: 'Get total jobs throughput by queue.',

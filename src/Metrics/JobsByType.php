@@ -10,7 +10,7 @@ class JobsByType extends Metric
     /**
      * The collector to store the metric.
      *
-     * @var \Prometheus\Gauge
+     * @var \Prometheus\Histogram
      */
     protected $collector;
 
@@ -30,7 +30,7 @@ class JobsByType extends Metric
         ];
 
         foreach ($statuses as $status => $method) {
-            $this->collector->set(
+            $this->collector->observe(
                 value: app(JobRepository::class)->{$method}(),
                 labels: ['type' => str_replace('_jobs', '', $status)],
             );
@@ -44,7 +44,7 @@ class JobsByType extends Metric
      */
     public function registerCollector()
     {
-        return $this->collector = $this->registry->registerGauge(
+        return $this->collector = $this->registry->registerHistogram(
             namespace: $this->getNamespace(),
             name: 'horizon_jobs_by_type',
             help: 'Get total processed jobs into all queues by specific type (i.e. completed, pending, etc.).',

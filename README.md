@@ -90,7 +90,7 @@ class CustomMetric extends Metric
     /**
      * The collector to store the metric.
      *
-     * @var \Prometheus\Gauge
+     * @var \Prometheus\Histogram
      */
     protected $collector;
 
@@ -103,7 +103,7 @@ class CustomMetric extends Metric
     {
         if ($jobs = app(MetricsRepository::class)->measuredJobs()) {
             foreach ($jobs as $job) {
-                $this->collector->set(
+                $this->collector->observe(
                     value: app(MetricsRepository::class)->runtimeForJob($job),
                     labels: [
                         'job' => $job,
@@ -120,7 +120,7 @@ class CustomMetric extends Metric
      */
     public function registerCollector()
     {
-        return $this->collector = $this->registry->registerGauge(
+        return $this->collector = $this->registry->registerHistogram(
             namespace: $this->getNamespace(),
             name: 'horizon_custom_name', // modify this to be unique,
             help: 'Add a relevant help text information.',
