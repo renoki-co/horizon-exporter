@@ -2,8 +2,8 @@
 
 namespace RenokiCo\HorizonExporter;
 
-use Prometheus\CollectorRegistry;
 use Illuminate\Support\Str;
+use Prometheus\CollectorRegistry;
 
 abstract class Metric
 {
