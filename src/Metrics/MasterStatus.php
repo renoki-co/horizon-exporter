@@ -45,7 +45,7 @@ class MasterStatus extends Metric
         return $this->collector = $this->registry->registerGauge(
             namespace: $this->getNamespace(),
             name: 'horizon_master_status',
-            help: 'That status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.',
+            help: 'The status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.',
             labels: ['name', 'pid'],
         );
     }

@@ -42,7 +42,7 @@ class MasterSupervisorsStatus extends Metric
         return $this->collector = $this->registry->registerGauge(
             namespace: $this->getNamespace(),
             name: 'horizon_supervisor_status',
-            help: 'That status of the Supervisor process. 0 = inactive, 1 = paused, 2 = running.',
+            help: 'The status of the Supervisor process. 0 = inactive, 1 = paused, 2 = running.',
             labels: ['name', 'master', 'pid'],
         );
     }
