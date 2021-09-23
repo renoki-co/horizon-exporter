@@ -40,17 +40,17 @@ This package is pretty straightforward. Upon installing it, it will register the
 Please keep in mind that the metrics are not calculated by-process, but as a whole across all supervisors. Point your Prometheus scraper to one of the instances for horizontally-scaled environments.
 
 ```
-# HELP horizon_master_status That status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.
-# TYPE horizon_master_status gauge
-horizon_master_status{name="master-1",pid="10082"} 2
+# HELP laravel_horizon_master_status That status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.
+# TYPE laravel_horizon_master_status gauge
+laravel_horizon_master_status{name="master-1",pid="10082"} 2
 
-# HELP horizon_queue_runtime Get total jobs runtime by queue.
-# TYPE horizon_queue_runtime gauge
-horizon_queue_runtime{queue="default"} 41.085
+# HELP laravel_horizon_queue_runtime Get total jobs runtime by queue.
+# TYPE laravel_horizon_queue_runtime gauge
+laravel_horizon_queue_runtime{queue="default"} 41.085
 
-# HELP horizon_queue_throughput Get total jobs throughput by queue.
-# TYPE horizon_queue_throughput gauge
-horizon_queue_throughput{queue="default"} 4
+# HELP laravel_horizon_queue_throughput Get total jobs throughput by queue.
+# TYPE laravel_horizon_queue_throughput gauge
+laravel_horizon_queue_throughput{queue="default"} 4
 
 # HELP laravel_horizon_job_runtime Get total workload runtime by job name.
 # TYPE laravel_horizon_job_runtime gauge
