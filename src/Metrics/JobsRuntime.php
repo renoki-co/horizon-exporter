@@ -23,8 +23,12 @@ class JobsRuntime extends Metric
     {
         if ($jobs = app(MetricsRepository::class)->measuredJobs()) {
             foreach ($jobs as $job) {
+                $value = collect(config('horizon-exporter.include_snapshots') ? app(MetricsRepository::class)->snapshotsForJob($job) : [])
+                    ->merge([(object) ['runtime' => app(MetricsRepository::class)->runtimeForJob($job)]])
+                    ->average('runtime');
+
                 $this->collector->set(
-                    value: app(MetricsRepository::class)->runtimeForJob($job),
+                    value: $value,
                     labels: [
                         'job' => $job,
                     ],

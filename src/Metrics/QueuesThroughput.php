@@ -23,8 +23,16 @@ class QueuesThroughput extends Metric
     {
         if ($queues = app(MetricsRepository::class)->measuredQueues()) {
             foreach ($queues as $queue) {
+                $value = app(MetricsRepository::class)->throughputForQueue($queue);
+
+                if (config('horizon-exporter.include_snapshots')) {
+                    foreach (app(MetricsRepository::class)->snapshotsForQueue($queue) as $snapshot) {
+                        $value += $snapshot->throughput;
+                    }
+                }
+
                 $this->collector->set(
-                    value: app(MetricsRepository::class)->throughputForQueue($queue),
+                    value: $value,
                     labels: [
                         'queue' => $queue,
                     ],

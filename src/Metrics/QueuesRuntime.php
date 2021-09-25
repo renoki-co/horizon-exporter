@@ -23,8 +23,12 @@ class QueuesRuntime extends Metric
     {
         if ($queues = app(MetricsRepository::class)->measuredQueues()) {
             foreach ($queues as $queue) {
+                $value = collect(config('horizon-exporter.include_snapshots') ? app(MetricsRepository::class)->snapshotsForQueue($queue) : [])
+                    ->merge([(object) ['runtime' => app(MetricsRepository::class)->runtimeForQueue($queue)]])
+                    ->average('runtime');
+
                 $this->collector->set(
-                    value: app(MetricsRepository::class)->runtimeForQueue($queue),
+                    value: $value,
                     labels: [
                         'queue' => $queue,
                     ],

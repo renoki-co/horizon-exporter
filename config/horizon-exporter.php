@@ -40,4 +40,25 @@ return [
 
     'middleware' => ['web'],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Include Past Snapshots
+    |--------------------------------------------------------------------------
+    |
+    | If you periodically run the horizon:snapshot command, it will reset
+    | the values exposed to Prometheus to 0, this leading to Prometheus
+    | reading counters starting from 0 each time it is ran.
+    |
+    | You can prevent that by enabling this setting. On the current values
+    | for throughput, jobs, etc., the values from snapshots will also be
+    | included. This may lead to graphs showing more jobs if you enable
+    | this after you had it disabled.
+    |
+    | It is recommended to keep it enabled, or to disable it and
+    | make sure the horizon:snapshot is never called.
+    |
+    */
+
+    'include_snapshots' => (bool) env('HORIZON_EXPORTER_SNAPSHOTS', true),
+
 ];

@@ -23,8 +23,16 @@ class JobsThroughput extends Metric
     {
         if ($jobs = app(MetricsRepository::class)->measuredJobs()) {
             foreach ($jobs as $job) {
+                $value = app(MetricsRepository::class)->throughputForJob($job);
+
+                if (config('horizon-exporter.include_snapshots')) {
+                    foreach (app(MetricsRepository::class)->snapshotsForJob($job) as $snapshot) {
+                        $value += $snapshot->throughput;
+                    }
+                }
+
                 $this->collector->set(
-                    value: app(MetricsRepository::class)->throughputForJob($job),
+                    value: $value,
                     labels: [
                         'job' => $job,
                     ],
