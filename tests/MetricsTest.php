@@ -5,6 +5,7 @@ namespace RenokiCo\HorizonExporter\Test;
 use Illuminate\Support\Facades\Queue;
 use Laravel\Horizon\Contracts\HorizonCommandQueue;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
+use Laravel\Horizon\Contracts\MetricsRepository;
 use Laravel\Horizon\Contracts\SupervisorRepository;
 use Laravel\Horizon\MasterSupervisorCommands\AddSupervisor;
 use Laravel\Horizon\Supervisor;
@@ -71,10 +72,20 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
+        resolve(MetricsRepository::class)->snapshot();
+
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+
+        $this->work();
+        $this->work();
+        $this->work();
+
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            'horizon_queue_throughput{queue="default"} 3',
+            'horizon_queue_throughput{queue="default"} 6',
             $response,
         );
     }
@@ -95,15 +106,27 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
+        resolve(MetricsRepository::class)->snapshot();
+
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob2);
+
+        $this->work();
+        $this->work();
+        $this->work();
+        $this->work();
+
         $response = HorizonExporter::exportAsPlainText();
 
         $this->assertStringContainsString(
-            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"} 3',
+            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"} 6',
             $response,
         );
 
         $this->assertStringContainsString(
-            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2"} 1',
+            'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob2"} 2',
             $response,
         );
     }
@@ -113,6 +136,16 @@ class MetricsTest extends TestCase
         resolve(MasterSupervisorRepository::class)->update(
             $master = $this->newMasterSupervisor('master-1')
         );
+
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+
+        $this->work();
+        $this->work();
+        $this->work();
+
+        resolve(MetricsRepository::class)->snapshot();
 
         Queue::push(new Jobs\BasicJob);
         Queue::push(new Jobs\BasicJob);
@@ -135,6 +168,18 @@ class MetricsTest extends TestCase
         resolve(MasterSupervisorRepository::class)->update(
             $master = $this->newMasterSupervisor('master-1')
         );
+
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob);
+        Queue::push(new Jobs\BasicJob2);
+
+        $this->work();
+        $this->work();
+        $this->work();
+        $this->work();
+
+        resolve(MetricsRepository::class)->snapshot();
 
         Queue::push(new Jobs\BasicJob);
         Queue::push(new Jobs\BasicJob);
