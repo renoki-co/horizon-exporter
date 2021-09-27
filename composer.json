@@ -13,10 +13,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "promphp/prometheus_client_php": "^2.0",
-        "illuminate/config": "^8.40",
-        "illuminate/routing": "^8.40",
-        "illuminate/support": "^8.40",
+        "renoki-co/laravel-exporter-contracts": "^1.0",
         "laravel/horizon": "^5.7"
     },
     "autoload": {

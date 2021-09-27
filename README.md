@@ -9,7 +9,7 @@ Laravel Horizon Prometheus Exporter
 [![Monthly Downloads](https://poser.pugx.org/renoki-co/horizon-exporter/d/monthly)](https://packagist.org/packages/renoki-co/horizon-exporter)
 [![License](https://poser.pugx.org/renoki-co/horizon-exporter/license)](https://packagist.org/packages/renoki-co/horizon-exporter)
 
-Export Laravel Horizon metrics using this Prometheus exporter.
+Export Laravel Horizon metrics using this Prometheus exporter. This package leverages [Exporter Contracts](https://github.com/renoki-co/laravel-exporter-contracts).
 
 ## 🤝 Supporting
 
@@ -31,11 +31,12 @@ Publish the config:
 
 ```bash
 $ php artisan vendor:publish --provider="RenokiCo\HorizonExporter\HorizonExporterServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="RenokiCo\LaravelExporter\LaravelExporterServiceProvider" --tag="config"
 ```
 
 ## 🙌 Usage
 
-This package is pretty straightforward. Upon installing it, it will register the route at `/horizon-exporter/metrics` and you can point Prometheus towards it for scraping.
+This package is pretty straightforward. Upon installing it, it will register the route at `/exporter/metrics` and you can point Prometheus towards it for scraping.
 
 Please keep in mind that the metrics are not calculated by-process, but as a whole across all supervisors. Point your Prometheus scraper to one of the instances for horizontally-scaled environments.
 
@@ -83,7 +84,7 @@ All you have to do is to create a `\RenokiCo\HorizonExporter\Metric` class that 
 
 ```php
 use Laravel\Horizon\Contracts\MetricsRepository;
-use RenokiCo\HorizonExporter\Metric;
+use RenokiCo\LaravelExporter\Metric;
 
 class CustomMetric extends Metric
 {
@@ -133,7 +134,7 @@ class CustomMetric extends Metric
 In your `AppServiceProvider`'s `boot()` method, register your metric:
 
 ```php
-use RenokiCo\HorizonExporter\HorizonExporter;
+use RenokiCo\LaravelExporter\Exporter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -141,7 +142,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        HorizonExporter::register(CustomMetric::class);
+        Exporter::register(CustomMetric::class);
     }
 }
 ```
