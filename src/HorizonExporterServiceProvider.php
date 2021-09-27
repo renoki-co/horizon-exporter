@@ -2,7 +2,6 @@
 
 namespace RenokiCo\HorizonExporter;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Prometheus\CollectorRegistry;
 use Prometheus\Storage\InMemory;
@@ -13,6 +12,7 @@ use RenokiCo\HorizonExporter\Metrics\MasterStatus;
 use RenokiCo\HorizonExporter\Metrics\MasterSupervisorsStatus;
 use RenokiCo\HorizonExporter\Metrics\QueuesRuntime;
 use RenokiCo\HorizonExporter\Metrics\QueuesThroughput;
+use RenokiCo\LaravelExporter\Exporter;
 
 class HorizonExporterServiceProvider extends ServiceProvider
 {
@@ -31,9 +31,9 @@ class HorizonExporterServiceProvider extends ServiceProvider
             __DIR__.'/../config/horizon-exporter.php', 'horizon-exporter'
         );
 
-        HorizonExporter::setRegistry(new CollectorRegistry(new InMemory));
+        Exporter::setRegistry(new CollectorRegistry(new InMemory));
 
-        HorizonExporter::metrics([
+        Exporter::metrics([
             JobsByType::class,
             JobsRuntime::class,
             JobsThroughput::class,
@@ -42,14 +42,6 @@ class HorizonExporterServiceProvider extends ServiceProvider
             QueuesRuntime::class,
             QueuesThroughput::class,
         ]);
-
-        Route::group([
-            'domain' => config('horizon-exporter.domain', null),
-            'prefix' => config('horizon-exporter.path'),
-            'middleware' => config('horizon-exporter.middleware', 'web'),
-        ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        });
     }
 
     /**

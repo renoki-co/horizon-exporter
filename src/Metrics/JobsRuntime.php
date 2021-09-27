@@ -3,7 +3,7 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\MetricsRepository;
-use RenokiCo\HorizonExporter\Metric;
+use RenokiCo\LaravelExporter\Metric;
 
 class JobsRuntime extends Metric
 {

@@ -43,6 +43,7 @@ abstract class TestCase extends Orchestra
     {
         return [
             \Laravel\Horizon\HorizonServiceProvider::class,
+            \RenokiCo\LaravelExporter\LaravelExporterServiceProvider::class,
             \RenokiCo\HorizonExporter\HorizonExporterServiceProvider::class,
             TestServiceProvider::class,
         ];
