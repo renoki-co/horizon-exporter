@@ -36,7 +36,7 @@ $ php artisan vendor:publish --provider="RenokiCo\LaravelExporter\LaravelExporte
 
 ## 🙌 Usage
 
-This package is pretty straightforward. Upon installing it, it will register the route at `/exporter/horizon-metrics` and you can point Prometheus towards it for scraping.
+This package is pretty straightforward. Upon installing it, it will register the route at `/exporter/group/horizon-metrics` and you can point Prometheus towards it for scraping.
 
 Please keep in mind that the metrics are not calculated by-process, but as a whole across all supervisors. Point your Prometheus scraper to one of the instances for horizontally-scaled environments.
 

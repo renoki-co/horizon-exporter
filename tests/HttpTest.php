@@ -21,7 +21,7 @@ class HttpTest extends TestCase
         $this->work();
         $this->work();
 
-        $this->get('/exporter/horizon-metrics')
+        $this->get('/exporter/group/horizon-metrics')
             ->assertSee('horizon_jobs_by_type{type="completed"} 3', escape: false);
     }
 }
