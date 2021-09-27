@@ -15,6 +15,13 @@ class MasterSupervisorsStatus extends Metric
     protected $collector;
 
     /**
+     * The group this metric gets shown into.
+     *
+     * @var string|null
+     */
+    public static $showsOnGroup = 'horizon-metrics';
+
+    /**
      * Perform the update call on the collector.
      *
      * @return void
