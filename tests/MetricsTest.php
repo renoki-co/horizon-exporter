@@ -25,7 +25,7 @@ class MetricsTest extends TestCase
         resolve(MasterSupervisorRepository::class)->update($master1);
         resolve(MasterSupervisorRepository::class)->update($master2);
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString("horizon_master_status{name=\"master-1\",pid=\"{$master1->pid()}\"} 2", $response);
         $this->assertStringContainsString("horizon_master_status{name=\"master-2\",pid=\"{$master2->pid()}\"} 1", $response);
@@ -50,7 +50,7 @@ class MetricsTest extends TestCase
 
         $master->loop();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             "horizon_supervisor_status{name=\"{$supervisor->name}\",master=\"{$master->name}\",pid=\"{$master->pid()}\"} 2",
@@ -82,7 +82,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_queue_throughput{queue="default"} 6',
@@ -118,7 +118,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_job_throughput{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"} 6',
@@ -155,7 +155,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_queue_runtime{queue="default"}',
@@ -191,7 +191,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_job_runtime{job="RenokiCo\\\\HorizonExporter\\\\Test\\\\Jobs\\\\BasicJob"}',
@@ -223,7 +223,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_jobs_by_type{type="completed"} 4',
@@ -265,7 +265,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_queue_throughput{queue="default"} 3',
@@ -280,7 +280,7 @@ class MetricsTest extends TestCase
         $this->work();
         $this->work();
 
-        $response = Exporter::exportAsPlainText();
+        $response = Exporter::exportAsPlainText('horizon-metrics');
 
         $this->assertStringContainsString(
             'horizon_queue_throughput{queue="default"} 6',
