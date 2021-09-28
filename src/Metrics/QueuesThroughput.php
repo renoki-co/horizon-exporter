@@ -3,17 +3,10 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\MetricsRepository;
-use RenokiCo\LaravelExporter\Metric;
+use RenokiCo\LaravelExporter\GaugeMetric;
 
-class QueuesThroughput extends Metric
+class QueuesThroughput extends GaugeMetric
 {
-    /**
-     * The collector to store the metric.
-     *
-     * @var \Prometheus\Gauge
-     */
-    protected $collector;
-
     /**
      * The group this metric gets shown into.
      *
@@ -38,28 +31,41 @@ class QueuesThroughput extends Metric
                     }
                 }
 
-                $this->collector->set(
+                $this->set(
                     value: $value,
-                    labels: [
-                        'queue' => $queue,
-                    ],
+                    labels: ['queue' => $queue],
                 );
             }
         }
     }
 
     /**
-     * Register the collector to the registry.
+     * Get the metric name.
      *
-     * @return \Prometheus\Collector
+     * @return string
      */
-    public function registerCollector()
+    protected function name(): string
     {
-        return $this->collector = $this->registry->registerGauge(
-            namespace: $this->getNamespace(),
-            name: 'horizon_queue_throughput',
-            help: 'Get total jobs throughput by queue.',
-            labels: ['queue'],
-        );
+        return 'horizon_queue_throughput';
+    }
+
+    /**
+     * Get the metric help.
+     *
+     * @return string
+     */
+    protected function help(): string
+    {
+        return 'Get total jobs throughput by queue.';
+    }
+
+    /**
+     * Get the metric allowed labels.
+     *
+     * @return array
+     */
+    protected function allowedLabels(): array
+    {
+        return ['queue'];
     }
 }

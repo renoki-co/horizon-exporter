@@ -3,17 +3,10 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\SupervisorRepository;
-use RenokiCo\LaravelExporter\Metric;
+use RenokiCo\LaravelExporter\GaugeMetric;
 
-class MasterSupervisorsStatus extends Metric
+class MasterSupervisorsStatus extends GaugeMetric
 {
-    /**
-     * The collector to store the metric.
-     *
-     * @var \Prometheus\Gauge
-     */
-    protected $collector;
-
     /**
      * The group this metric gets shown into.
      *
@@ -30,27 +23,45 @@ class MasterSupervisorsStatus extends Metric
     {
         if ($supervisors = app(SupervisorRepository::class)->all()) {
             foreach ($supervisors as $supervisor) {
-                $this->collector->set($supervisor->status === 'paused' ? 1 : 2, [
-                    'name' => $supervisor->name,
-                    'master' => $supervisor->master,
-                    'pid' => $supervisor->pid,
-                ]);
+                $this->set(
+                    value: $supervisor->status === 'paused' ? 1 : 2,
+                    labels: [
+                        'name' => $supervisor->name,
+                        'master' => $supervisor->master,
+                        'pid' => $supervisor->pid,
+                    ],
+                );
             }
         }
     }
 
     /**
-     * Register the collector to the registry.
+     * Get the metric name.
      *
-     * @return \Prometheus\Collector
+     * @return string
      */
-    public function registerCollector()
+    protected function name(): string
     {
-        return $this->collector = $this->registry->registerGauge(
-            namespace: $this->getNamespace(),
-            name: 'horizon_supervisor_status',
-            help: 'That status of the Supervisor process. 0 = inactive, 1 = paused, 2 = running.',
-            labels: ['name', 'master', 'pid'],
-        );
+        return 'horizon_supervisor_status';
+    }
+
+    /**
+     * Get the metric help.
+     *
+     * @return string
+     */
+    protected function help(): string
+    {
+        return 'That status of the Supervisor process. 0 = inactive, 1 = paused, 2 = running.';
+    }
+
+    /**
+     * Get the metric allowed labels.
+     *
+     * @return array
+     */
+    protected function allowedLabels(): array
+    {
+        return ['name', 'master', 'pid'];
     }
 }

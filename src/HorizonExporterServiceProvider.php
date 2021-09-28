@@ -17,6 +17,21 @@ use RenokiCo\LaravelExporter\Exporter;
 class HorizonExporterServiceProvider extends ServiceProvider
 {
     /**
+     * The metrics to register.
+     *
+     * @var array
+     */
+    protected static $metrics = [
+        JobsByType::class,
+        JobsRuntime::class,
+        JobsThroughput::class,
+        MasterStatus::class,
+        MasterSupervisorsStatus::class,
+        QueuesRuntime::class,
+        QueuesThroughput::class,
+    ];
+
+    /**
      * Boot the service provider.
      *
      * @return void
@@ -33,15 +48,9 @@ class HorizonExporterServiceProvider extends ServiceProvider
 
         Exporter::setRegistry(new CollectorRegistry(new InMemory));
 
-        Exporter::metrics([
-            JobsByType::class,
-            JobsRuntime::class,
-            JobsThroughput::class,
-            MasterStatus::class,
-            MasterSupervisorsStatus::class,
-            QueuesRuntime::class,
-            QueuesThroughput::class,
-        ]);
+        foreach (static::$metrics as $metric) {
+            Exporter::register($metric);
+        }
     }
 
     /**
