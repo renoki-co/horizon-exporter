@@ -3,17 +3,11 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\MetricsRepository;
+use RenokiCo\LaravelExporter\GaugeMetric;
 use RenokiCo\LaravelExporter\Metric;
 
-class JobsRuntime extends Metric
+class JobsRuntime extends GaugeMetric
 {
-    /**
-     * The collector to store the metric.
-     *
-     * @var \Prometheus\Gauge
-     */
-    protected $collector;
-
     /**
      * The group this metric gets shown into.
      *
@@ -34,28 +28,41 @@ class JobsRuntime extends Metric
                     ->merge([(object) ['runtime' => app(MetricsRepository::class)->runtimeForJob($job)]])
                     ->average('runtime');
 
-                $this->collector->set(
+                $this->set(
                     value: $value,
-                    labels: [
-                        'job' => $job,
-                    ],
+                    labels: ['job' => $job],
                 );
             }
         }
     }
 
     /**
-     * Register the collector to the registry.
+     * Get the metric name.
      *
-     * @return \Prometheus\Collector
+     * @return string
      */
-    public function registerCollector()
+    protected function name(): string
     {
-        return $this->collector = $this->registry->registerGauge(
-            namespace: $this->getNamespace(),
-            name: 'horizon_job_runtime',
-            help: 'Get total workload runtime by job name.',
-            labels: ['job'],
-        );
+        return 'horizon_job_runtime';
+    }
+
+    /**
+     * Get the metric help.
+     *
+     * @return string
+     */
+    protected function help(): string
+    {
+        return 'Get total workload runtime by job name.';
+    }
+
+    /**
+     * Get the metric allowed labels.
+     *
+     * @return array
+     */
+    protected function allowedLabels(): array
+    {
+        return ['job'];
     }
 }

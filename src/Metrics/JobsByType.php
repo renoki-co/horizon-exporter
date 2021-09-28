@@ -3,17 +3,10 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\JobRepository;
-use RenokiCo\LaravelExporter\Metric;
+use RenokiCo\LaravelExporter\GaugeMetric;
 
-class JobsByType extends Metric
+class JobsByType extends GaugeMetric
 {
-    /**
-     * The collector to store the metric.
-     *
-     * @var \Prometheus\Gauge
-     */
-    protected $collector;
-
     /**
      * The group this metric gets shown into.
      *
@@ -37,7 +30,7 @@ class JobsByType extends Metric
         ];
 
         foreach ($statuses as $status => $method) {
-            $this->collector->set(
+            $this->set(
                 value: app(JobRepository::class)->{$method}(),
                 labels: ['type' => str_replace('_jobs', '', $status)],
             );
@@ -45,17 +38,32 @@ class JobsByType extends Metric
     }
 
     /**
-     * Register the collector to the registry.
+     * Get the metric name.
      *
-     * @return \Prometheus\Collector
+     * @return string
      */
-    public function registerCollector()
+    protected function name(): string
     {
-        return $this->collector = $this->registry->registerGauge(
-            namespace: $this->getNamespace(),
-            name: 'horizon_jobs_by_type',
-            help: 'Get total processed jobs into all queues by specific type (i.e. completed, pending, etc.).',
-            labels: ['type'],
-        );
+        return 'horizon_jobs_by_type';
+    }
+
+    /**
+     * Get the metric help.
+     *
+     * @return string
+     */
+    protected function help(): string
+    {
+        return 'Get total processed jobs into all queues by specific type (i.e. completed, pending, etc.).';
+    }
+
+    /**
+     * Get the metric allowed labels.
+     *
+     * @return array
+     */
+    protected function allowedLabels(): array
+    {
+        return ['type'];
     }
 }
