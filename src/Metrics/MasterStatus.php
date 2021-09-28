@@ -3,17 +3,10 @@
 namespace RenokiCo\HorizonExporter\Metrics;
 
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
-use RenokiCo\LaravelExporter\Metric;
+use RenokiCo\LaravelExporter\GaugeMetric;
 
-class MasterStatus extends Metric
+class MasterStatus extends GaugeMetric
 {
-    /**
-     * The collector to store the metric.
-     *
-     * @var \Prometheus\Gauge
-     */
-    protected $collector;
-
     /**
      * The group this metric gets shown into.
      *
@@ -34,26 +27,41 @@ class MasterStatus extends Metric
                     continue;
                 }
 
-                $this->collector->set($master->status === 'paused' ? 1 : 2, [
-                    'name' => $master->name,
-                    'pid' => $master->pid,
-                ]);
+                $this->set(
+                    value: $master->status === 'paused' ? 1 : 2,
+                    labels: ['name' => $master->name, 'pid' => $master->pid],
+                );
             }
         }
     }
 
     /**
-     * Register the collector to the registry.
+     * Get the metric name.
      *
-     * @return \Prometheus\Collector
+     * @return string
      */
-    public function registerCollector()
+    protected function name(): string
     {
-        return $this->collector = $this->registry->registerGauge(
-            namespace: $this->getNamespace(),
-            name: 'horizon_master_status',
-            help: 'That status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.',
-            labels: ['name', 'pid'],
-        );
+        return 'horizon_master_status';
+    }
+
+    /**
+     * Get the metric help.
+     *
+     * @return string
+     */
+    protected function help(): string
+    {
+        return 'That status of the Master Horizon process. 0 = inactive, 1 = paused, 2 = running.';
+    }
+
+    /**
+     * Get the metric allowed labels.
+     *
+     * @return array
+     */
+    protected function allowedLabels(): array
+    {
+        return ['name', 'pid'];
     }
 }
