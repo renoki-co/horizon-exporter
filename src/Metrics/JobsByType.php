@@ -37,7 +37,6 @@ class JobsByType extends GaugeMetric
         }
     }
 
-
     /**
      * Get the metric name.
      *
