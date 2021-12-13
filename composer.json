@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "renoki-co/laravel-exporter-contracts": "^1.3",
+        "renoki-co/laravel-exporter-contracts": "^1.4",
         "laravel/horizon": "^5.7"
     },
     "autoload": {
