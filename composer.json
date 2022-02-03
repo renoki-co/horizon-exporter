@@ -1,7 +1,17 @@
 {
     "name": "renoki-co/horizon-exporter",
     "description": "Export Laravel Horizon metrics using this Prometheus exporter.",
-    "keywords": ["laravel", "php", "horizon", "exporter", "prometheus", "grafana", "queues", "queue", "job"],
+    "keywords": [
+        "laravel",
+        "php",
+        "horizon",
+        "exporter",
+        "prometheus",
+        "grafana",
+        "queues",
+        "queue",
+        "job"
+    ],
     "license": "Apache-2.0",
     "homepage": "https://github.com/renoki-co/horizon-exporter",
     "authors": [
@@ -30,8 +40,8 @@
         "test": "vendor/bin/phpunit"
     },
     "require-dev": {
-        "mockery/mockery": "^1.5",
-        "orchestra/testbench": "^6.24.0",
+        "mockery/mockery": "^1.5|^1.4.4",
+        "orchestra/testbench": "^6.24.0|^7.0",
         "predis/predis": "^1.1"
     },
     "config": {
