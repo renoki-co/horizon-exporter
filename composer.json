@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.5",
-        "orchestra/testbench": "^6.24.0",
+        "orchestra/testbench": "^6.x-dev",
         "predis/predis": "^1.1"
     },
     "config": {
