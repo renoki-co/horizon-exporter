@@ -46,7 +46,7 @@ jobs:
       with:
         redis-version: '6.0'
 
-    - uses: actions/cache@v2.1.7
+    - uses: actions/cache@v3
       name: Cache dependencies
       with:
         path: ~/.composer/cache/files
