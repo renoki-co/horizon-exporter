@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "renoki-co/laravel-exporter-contracts": "^1.4",
+        "renoki-co/laravel-exporter-contracts": "^2.0",
         "laravel/horizon": "^5.8"
     },
     "autoload": {
@@ -31,7 +31,9 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.5",
-        "orchestra/testbench": "^6.24.0",
+        "orchestra/testbench": "^7.0",
+        "orchestra/testbench-core": "^7.0",
+        "phpunit/phpunit": "^9.5.13",
         "predis/predis": "^1.1"
     },
     "config": {
