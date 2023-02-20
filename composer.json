@@ -32,7 +32,7 @@
     "require-dev": {
         "mockery/mockery": "^1.5",
         "orchestra/testbench": "^7.6",
-        "orchestra/testbench-core": "^7.0",
+        "orchestra/testbench-core": "^7.x-dev",
         "phpunit/phpunit": "^9.5.13",
         "predis/predis": "^2.0"
     },
