@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.0",
         "renoki-co/laravel-exporter-contracts": "^2.0",
-        "laravel/horizon": "^5.8"
+        "laravel/horizon": "^5.17"
     },
     "autoload": {
         "psr-4": {
