@@ -43,7 +43,7 @@ jobs:
         coverage: pcov
 
     - name: Start Redis
-      uses: supercharge/redis-github-action@1.4.0
+      uses: supercharge/redis-github-action@1.6.0
       with:
         redis-version: '6.0'
 
