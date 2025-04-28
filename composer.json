@@ -30,7 +30,7 @@
         "test": "vendor/bin/phpunit"
     },
     "require-dev": {
-        "mockery/mockery": "^1.5",
+        "mockery/mockery": "^1.6",
         "orchestra/testbench": "^7.6",
         "orchestra/testbench-core": "^7.0",
         "phpunit/phpunit": "^9.5.13",
